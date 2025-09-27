@@ -1,39 +1,30 @@
-# Ex.No: 6   Logic Programming – Factorial of number   
-### DATE:                                                                            
-### REGISTER NUMBER : 
+# Ex.No: 5   Logic Programming – Factorial of number   
+### DATE:27/09/2025                                                                            
+### REGISTER NUMBER : 212222060172
 ### AIM: 
-To  write  a logic program  to solve Towers of Hanoi problem  using SWI-PROLOG. 
+To  write  a logic program for finding the factorial of given number using SWI-PROLOG. 
 ### Algorithm:
-1. Start the program
-2.  Write a rules for finding solution of Towers of Hanoi in SWI-PROLOG.
-3.  a )	If only one disk  => Move disk from X to Y.
-4.  b)	If Number of disk greater than 0 then
-5.        i)	Move  N-1 disks from X to Z.
-6.        ii)	Move  Nth disk from X to Y
-7.        iii)	Move  N-1 disks from Y to X.
-8. Run the program  to find answer of  query.
+1. STEP 1: Start the program
+2. STEP 2:  Write a rules for finding factorial of given program in SWI-PROLOG.
+3.   a)	factorial of 0 is 1 => written as factorial(0,1).
+4.   b)	factorial of number greater than 0 obtained by recursively calling the factorial    function.
+5. STEP 3: Run the program  to find answer of  query.
+6. STEP 4: Stop the program.
 
 ### Program:
 ```
-move(1,X,Y,_) :-  
-    write('Move top disk from '), 
-    write(X), 
-    write(' to '), 
-    write(Y), 
-    nl. 
-move(N,X,Y,Z) :- 
-    N>1, 
-    M is N-1, 
-    move(M,X,Z,Y), 
-    move(1,X,Y,_), 
-    move(M,Z,Y,X).
+factorial(0,1).
+factorial(A,B) :-  
+           A > 0, 
+           C is A-1,
+           factorial(C,D),
+           B is A*D.
 ```
 
-
 ### Output:
-<img width="362" height="328" alt="Screenshot 2025-09-13 092018" src="https://github.com/user-attachments/assets/dbb00df7-2cce-4d8a-ace6-7fb496188549" />
+<img width="653" height="355" alt="image" src="https://github.com/user-attachments/assets/fa1ac7c5-2e3e-466f-9669-fbf0a0a580be" />
 
 
 
 ### Result:
-Thus the solution of Towers of Hanoi problem was found by logic programming.
+Thus the factorial of given number was found by logic programming. 
