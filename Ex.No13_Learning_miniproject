@@ -1,11 +1,9 @@
-
- 
 # Ex.No: 13 Learning – Use Supervised Learning  
 ### DATE: 25-10-2025                                                                        
 ### REGISTER NUMBER : 212222060172.
 
 ### AIM:
-Cinema tickets grant entry to view films at theaters. They can be purchased online, through mobile apps, or at the box office. Prices vary based on factors such as location, time, day, and seat type. Discounts are often available for students, seniors, and children. Modern cinemas may offer additional features like reserved seating, reclining chairs, and premium formats such as IMAX or 3D. Tickets usually include a seat assignment and showtime, ensuring a specific spot for a particular screening.
+Cinema tickets grant entry to view films at theaters. They can be purchased online, through mobile apps, or at the box office. Prices vary based on factors such as location, time, day, and seat type. Discounts are often available for students, seniors, and children. Modern cinemas may offer additional features like reserved seating, reclining chairs, and premium formats such as IMAX or 3D. Tickets usually include a seat assignment and showtime, ensuring a specific spot for a particular screening. 
 Import
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -54,18 +52,6 @@ min	1471.000000	32.000000	2.000000e+04	1.000000	0.000000	1.000000	0.000000	483.8
 max	1589.000000	637.000000	1.262820e+09	8499.000000	311.000000	60.000000	147.500000	700000.000000	8499.000000	9692.097160	11.000000	4.000000	31.000000
 Missing Value
 df.isnull()
-	film_code	cinema_code	total_sales	tickets_sold	tickets_out	show_time	occu_perc	ticket_price	ticket_use	capacity	date	month	quarter	day
-0	False	False	False	False	False	False	False	False	False	False	False	False	False	False
-1	False	False	False	False	False	False	False	False	False	False	False	False	False	False
-2	False	False	False	False	False	False	False	False	False	False	False	False	False	False
-3	False	False	False	False	False	False	False	False	False	False	False	False	False	False
-4	False	False	False	False	False	False	False	False	False	False	False	False	False	False
-...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
-142519	False	False	False	False	False	False	False	False	False	False	False	False	False	False
-142520	False	False	False	False	False	False	False	False	False	False	False	False	False	False
-142521	False	False	False	False	False	False	False	False	False	False	False	False	False	False
-142522	False	False	False	False	False	False	False	False	False	False	False	False	False	False
-142523	False	False	False	False	False	False	False	False	False	False	False	False	False	False
 142524 rows × 14 columns
 df.isnull().sum()
 film_code         0
@@ -236,4 +222,5 @@ plt.show()
 /opt/conda/lib/python3.10/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
   with pd.option_context('mode.use_inf_as_na', True):
  
+
 
