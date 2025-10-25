@@ -2,8 +2,9 @@
 ### DATE: 25-10-2025                                                                        
 ### REGISTER NUMBER : 212222060172.
 
-### AIM:
-Cinema tickets grant entry to view films at theaters. They can be purchased online, through mobile apps, or at the box office. Prices vary based on factors such as location, time, day, and seat type. Discounts are often available for students, seniors, and children. Modern cinemas may offer additional features like reserved seating, reclining chairs, and premium formats such as IMAX or 3D. Tickets usually include a seat assignment and showtime, ensuring a specific spot for a particular screening. 
+### AIM: Cinema tickets  entry to view films at theaters.
+###  Algorithm:
+Cinema tickets grant entry to view films at theaters. They can be purchased online, through mobile apps, or at the box office. Prices vary based on factors such as location, time, day, and seat type. Discounts are often available for students, seniors, and children. Modern cinemas may offer additional features like reserved seating, reclining chairs, and premium formats such as IMAX or 3D. Tickets usually include a seat assignment and showtime, ensuring a specific spot for a particular screening.
 Import
 import pandas as pd
 import matplotlib.pyplot as plt
