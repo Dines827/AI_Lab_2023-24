@@ -1,124 +1,226 @@
+# Ex.No: 13 Learning – Use Supervised Learning  
+### DATE: 25-10-2025                                                                        
+### REGISTER NUMBER : 212222060172.
 
-# Ex.No: 13 Learning – Facial Emotion Recognition  
-### DATE:                                                                          
-### REGISTER NUMBER : 212222060172
-### AIM: 
-To write a program to recognizing facial expression of human is of significance in certain domains.
-###  Algorithm:
-1. Start the program.
-2. Import required Python libraries, including NumPy, Pandas, Google Colab, Gradio, and various
-scikit-learn modules.
-3. Mount Google Drive using Google Colab's 'drive.mount()' method to access the data file
-located in Google Drive.
-4. Install the Gradio library using 'pip install gradio'.
-5. Load the diabetes dataset from a CSV file ('diabetes.csv') using Pandas.
-6. Separate the target variable ('Outcome') from the input features and Scale the input features
-using the StandardScaler from scikit-learn.
-7. Create a multi-layer perceptron (MLP) classifier model using scikit-learn's 'MLPClassifier'.
-8. Train the model using the training data (x_train and y_train).
-9. Define a function named 'diabetes' that takes input parameters for various features and Use
-the trained machine learning model to predict the outcome based on the input features.
-10. Create a Gradio interface using 'gr.Interface' and Specify the function to be used to make
-predictions based on user inputs.
-11. Launch the Gradio web application, enabling sharing, to allow users to input their data and
-get predictions regarding diabetes risk.
-12. Stop the program.
-### Program:
-import cv2
-from model import FacialExpressionModel
+### AIM:
+Cinema tickets grant entry to view films at theaters. They can be purchased online, through mobile apps, or at the box office. Prices vary based on factors such as location, time, day, and seat type. Discounts are often available for students, seniors, and children. Modern cinemas may offer additional features like reserved seating, reclining chairs, and premium formats such as IMAX or 3D. Tickets usually include a seat assignment and showtime, ensuring a specific spot for a particular screening. 
+Import
+import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+Read Data
+df = pd.read_csv('../input/cinema-ticket/cinemaTicket_Ref.csv')
+df.head()
+	film_code	cinema_code	total_sales	tickets_sold	tickets_out	show_time	occu_perc	ticket_price	ticket_use	capacity	date	month	quarter	day
+0	1492	304	3900000	26	0	4	4.26	150000.0	26	610.328638	2018-05-05	5	2	5
+1	1492	352	3360000	42	0	5	8.08	80000.0	42	519.801980	2018-05-05	5	2	5
+2	1492	489	2560000	32	0	4	20.00	80000.0	32	160.000000	2018-05-05	5	2	5
+3	1492	429	1200000	12	0	1	11.01	100000.0	12	108.991826	2018-05-05	5	2	5
+4	1492	524	1200000	15	0	3	16.67	80000.0	15	89.982004	2018-05-05	5	2	5
+df.info()
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 142524 entries, 0 to 142523
+Data columns (total 14 columns):
+ #   Column        Non-Null Count   Dtype  
+---  ------        --------------   -----  
+ 0   film_code     142524 non-null  int64  
+ 1   cinema_code   142524 non-null  int64  
+ 2   total_sales   142524 non-null  int64  
+ 3   tickets_sold  142524 non-null  int64  
+ 4   tickets_out   142524 non-null  int64  
+ 5   show_time     142524 non-null  int64  
+ 6   occu_perc     142399 non-null  float64
+ 7   ticket_price  142524 non-null  float64
+ 8   ticket_use    142524 non-null  int64  
+ 9   capacity      142399 non-null  float64
+ 10  date          142524 non-null  object 
+ 11  month         142524 non-null  int64  
+ 12  quarter       142524 non-null  int64  
+ 13  day           142524 non-null  int64  
+dtypes: float64(3), int64(10), object(1)
+memory usage: 15.2+ MB
+df.describe()
+	film_code	cinema_code	total_sales	tickets_sold	tickets_out	show_time	occu_perc	ticket_price	ticket_use	capacity	month	quarter	day
+count	142524.000000	142524.000000	1.425240e+05	142524.000000	142524.000000	142524.000000	142399.000000	142524.000000	142524.000000	142399.000000	142524.000000	142524.000000	142524.000000
+mean	1518.985111	320.378427	1.234728e+07	140.137570	0.237413	3.932103	19.965986	81234.599886	139.900157	854.723605	6.776852	2.634721	16.112585
+std	36.184450	159.701229	3.065486e+07	279.758733	2.923206	3.056276	22.653445	33236.599278	279.564935	953.118103	2.195843	0.809692	8.949471
+min	1471.000000	32.000000	2.000000e+04	1.000000	0.000000	1.000000	0.000000	483.870968	-219.000000	-2.000000	2.000000	1.000000	1.000000
+25%	1485.000000	181.000000	1.260000e+06	18.000000	0.000000	2.000000	3.750000	60000.000000	18.000000	276.994486	5.000000	2.000000	8.000000
+50%	1498.000000	324.000000	3.720000e+06	50.000000	0.000000	3.000000	10.350000	79454.235185	50.000000	525.714286	7.000000	3.000000	16.000000
+75%	1556.000000	474.000000	1.110000e+07	143.000000	0.000000	5.000000	28.210000	100000.000000	143.000000	1038.961039	9.000000	3.000000	24.000000
+max	1589.000000	637.000000	1.262820e+09	8499.000000	311.000000	60.000000	147.500000	700000.000000	8499.000000	9692.097160	11.000000	4.000000	31.000000
+Missing Value
+df.isnull()
+142524 rows × 14 columns
+df.isnull().sum()
+film_code         0
+cinema_code       0
+total_sales       0
+tickets_sold      0
+tickets_out       0
+show_time         0
+occu_perc       125
+ticket_price      0
+ticket_use        0
+capacity        125
+date              0
+month             0
+quarter           0
+day               0
+dtype: int64
+df['cinema_code'].value_counts()
+cinema_code
+524    2474
+489    2407
+448    2345
+163    2241
+518    2193
+       ... 
+520      12
+565      10
+637       5
+566       2
+424       1
+Name: count, Length: 246, dtype: int64
+Count Unique Number
+df['cinema_code'].unique()
+array([304, 352, 489, 429, 524,  71, 163, 450,  51, 522,  43, 529,  82,
+       344,  73, 485, 518, 448, 431,  72, 144, 456, 238, 312, 168, 254,
+       214, 474, 445, 300, 362, 324, 452, 291, 479, 210, 428, 277,  56,
+       253, 243,  39, 310, 201, 457, 191, 532, 167, 266, 204, 380, 169,
+       162, 506, 537, 513, 467, 509, 165, 262, 486, 198, 508, 222,  98,
+       230, 156, 181, 141, 528,  94, 350, 442, 556, 475, 142,  35,  89,
+        34, 225, 182, 396,  50,  61, 487,  88, 338, 417, 194,  57, 285,
+       187, 159, 184,  81, 207, 339, 326, 531, 505, 492, 299, 507, 316,
+       333, 172, 526, 414, 115, 468, 490, 441, 430, 472, 511, 480, 470,
+       496, 466, 381, 368, 498, 195, 546, 516, 425, 488, 535, 196, 453,
+       321, 152, 390, 166, 247, 454, 464, 499, 460, 251, 481, 315, 307,
+       120, 250, 533, 221, 248, 313, 164,  70, 180, 160, 495, 314, 415,
+       174, 259, 471, 245,  83,  91, 365, 359, 286,  64, 426, 237, 536,
+       397, 476, 503, 491, 517,  55, 170, 175,  62, 539, 541, 540, 484,
+       514, 548, 432, 501, 447, 186, 477, 331, 515,  48,  33, 185, 155,
+       455, 461, 534, 273, 504, 249,  52, 482, 323, 451, 341, 306, 413,
+       292, 463, 223, 497, 525, 427, 231, 519, 183,  32, 553, 271, 276,
+       154, 521, 502, 402, 158, 473, 465, 561, 328, 558, 562, 424, 512,
+       560, 458, 637, 520, 557, 555, 543, 542, 565, 215, 376, 566])
+df.shape
+(142524, 14)
+df.dtypes
+film_code         int64
+cinema_code       int64
+total_sales       int64
+tickets_sold      int64
+tickets_out       int64
+show_time         int64
+occu_perc       float64
+ticket_price    float64
+ticket_use        int64
+capacity        float64
+date             object
+month             int64
+quarter           int64
+day               int64
+dtype: object
+df.columns
+Index(['film_code', 'cinema_code', 'total_sales', 'tickets_sold',
+       'tickets_out', 'show_time', 'occu_perc', 'ticket_price', 'ticket_use',
+       'capacity', 'date', 'month', 'quarter', 'day'],
+      dtype='object')
+df['date'] = pd.to_datetime(df['date'])
+df.dtypes
+film_code                int64
+cinema_code              int64
+total_sales              int64
+tickets_sold             int64
+tickets_out              int64
+show_time                int64
+occu_perc              float64
+ticket_price           float64
+ticket_use               int64
+capacity               float64
+date            datetime64[ns]
+month                    int64
+quarter                  int64
+day                      int64
+dtype: object
+df['date'].value_counts()
+date
+2018-05-15    790
+2018-05-08    784
+2018-05-11    778
+2018-05-10    774
+2018-05-09    766
+             ... 
+2018-06-05      4
+2018-10-30      2
+2018-02-23      1
+2018-02-21      1
+2018-09-21      1
+Name: count, Length: 234, dtype: int64
+Plots
+sns.heatmap(df.corr())
+plt.show()
+ 
+sns.lineplot(x=df['month'],y=df['total_sales'])
 
-facec = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-model = FacialExpressionModel("model.json", "model_weights.h5")
-font = cv2.FONT_HERSHEY_SIMPLEX
+plt.title("Sales of Ticket Movie")
+plt.xlabel("Month")
+plt.ylabel("Total of Sale")
 
-class VideoCamera(object):
-    def __init__(self):
-        self.video = cv2.VideoCapture("C:\\Users\\Faizan\\Downloads\\Emotion Detector\\presidential_debate.mp4")
+plt.show()
+/opt/conda/lib/python3.10/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/opt/conda/lib/python3.10/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+ 
+df['film_code'].value_counts()
+film_code
+1554    11614
+1493    10491
+1481     9531
+1484     8657
+1482     7397
+1556     7000
+1483     6972
+1485     6096
+1494     6022
+1498     5547
+1499     5188
+1576     4434
+1497     3911
+1559     3650
+1572     3582
+1558     3549
+1511     3254
+1495     2958
+1553     2861
+1573     2447
+1552     2446
+1486     2294
+1551     2268
+1562     2144
+1578     1849
+1575     1589
+1496     1443
+Name: count, dtype: int64
+df['quarter'].value_c
+Name: count, dtype: int64
+sns.barplot(x=df['film_code'],y=df['total_sales'])
 
-    def __del__(self):
-        self.video.release()
+plt.show()
+ 
+sns.barplot(x=df['quarter'],y=df['total_sales'])
+sns.lineplot(x=df['quarter'],y=df['total_sales'])
 
-    # returns camera frames along with bounding boxes and predictions
-    def get_frame(self):
-        _, fr = self.video.read()
-        gray_fr = cv2.cvtColor(fr, cv2.COLOR_BGR2GRAY)
-        faces = facec.detectMultiScale(gray_fr, 1.3, 5)
-
-        for (x, y, w, h) in faces:
-            fc = gray_fr[y:y+h, x:x+w]
-
-            roi = cv2.resize(fc, (48, 48))
-            pred = model.predict_emotion(roi[np.newaxis, :, :, np.newaxis])
-
-            cv2.putText(fr, pred, (x, y), font, 1, (255, 255, 0), 2)
-            cv2.rectangle(fr,(x,y),(x+w,y+h),(255,0,0),2)
-
-        _, jpeg = cv2.imencode('.jpg', fr)
-        return jpeg.tobytes()
-#main.py
-from flask import Flask, render_template, Response
-from camera import VideoCamera
-
-
-app = Flask(__name__)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
-@app.route('/video_feed')
-def video_feed():
-    return Response(gen(VideoCamera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
-#model.py
-from tensorflow.keras.models import model_from_json
-import numpy as np
-
-import tensorflow as tf
-
-config = tf.compat.v1.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.15
-session = tf.compat.v1.Session(config=config)
+plt.title("Total Sales")
+plt.xlabel("Quarter")
+plt.ylabel("Total Sales")
+plt.show()
+/opt/conda/lib/python3.10/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/opt/conda/lib/python3.10/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+ 
 
 
-class FacialExpressionModel(object):
-
-    EMOTIONS_LIST = ["Angry", "Disgust",
-                     "Fear", "Happy",
-                     "Neutral", "Sad",
-                     "Surprise"]
-
-    def __init__(self, model_json_file, model_weights_file):
-        # load model from JSON file
-        with open(model_json_file, "r") as json_file:
-            loaded_model_json = json_file.read()
-            self.loaded_model = model_from_json(loaded_model_json)
-
-        # load weights into the new model
-        self.loaded_model.load_weights(model_weights_file)
-        self.loaded_model._make_predict_function()
-
-    def predict_emotion(self, img):
-        self.preds = self.loaded_model.predict(img)
-        return FacialExpressionModel.EMOTIONS_LIST[np.argmax(self.preds)]
-
-### Output:
-<img width="515" alt="122278339-3b7e1380-cf00-11eb-94c2-94914135f696" src="https://github.com/user-attachments/assets/d87ee03c-9945-41d8-a867-0f9eb83a3958">
-<img width="696" alt="122278507-66686780-cf00-11eb-9836-f866356bcac9" src="https://github.com/user-attachments/assets/9328d70c-526c-40e9-902a-ecf0cc2b337f">
-
-
-
-
-
-### Result:
-Thus the recognizing facial expression of human is of significance executed successfully.
